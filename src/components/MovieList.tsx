@@ -1,20 +1,22 @@
-import { Movie } from "../types.ts";
+import { Movie } from "../types";
 import MovieCard from "./MovieCard";
 
-interface MovieListProps {
-  movies: Movie[];
-}
+type MovieListProps = {
+    movies: Movie[];
+};
 
 const MovieList = ({ movies }: MovieListProps) => {
-  return (
-    <div className="movies-grid">
-      {movies.length === 0 ? (
-        <p>No movies found.</p>
-      ) : (
-        movies.map(movie => <MovieCard key={movie.id} movie={movie} />)
-      )}
-    </div>
-  );
+    if (movies.length === 0) {
+        return <p>No movies found.</p>;
+    }
+
+    return (
+        <div className="movies-grid">
+            {movies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+            ))}
+        </div>
+    );
 };
 
 export default MovieList;

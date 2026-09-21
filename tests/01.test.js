@@ -15,7 +15,7 @@ describe('Exercise 01 — const and let', () => {
   })
 
   it('declares releaseYear with const', () => {
-    expect(code).toMatch(/const\s+releaseYear/)
+    expect(code).toMatch(/const\s+releaseYear/) 
   })
 
   it('declares movieTitle with let', () => {
