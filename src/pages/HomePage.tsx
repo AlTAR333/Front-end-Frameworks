@@ -36,9 +36,22 @@ const HomePage = ({ searchQuery = "" }: { searchQuery?: string }) => {
 
     return (
         <main className="main-container">
+            <h1 className="section-title">{searchQuery ? "Search results" : "Popular movies"}</h1>
+            {movies.length === 0 && loading && (
+                <div className="movies-grid" role="status" aria-label="Loading movies">
+                    {Array.from({ length: 12 }, (_, i) => (
+                        <div key={i} className="skeleton-card" />
+                    ))}
+                </div>
+            )}
             {movies.length > 0 && <MovieList movies={filteredMovies} genres={genres} onMovieClick={setSelectedMovie} />}
-            {loading && <p>Loading...</p>}
-            {error && <p>Something went wrong. </p>}
+            {loading && movies.length > 0 && (
+                <div className="status-msg" role="status">
+                    <span className="spinner" aria-hidden="true" />
+                    Loading...
+                </div>
+            )}
+            {error && <p className="status-msg error">Something went wrong. </p>}
             <div ref={loaderRef}></div>
             {selectedMovie && (
                 <MovieModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />

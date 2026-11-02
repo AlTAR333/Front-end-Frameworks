@@ -45,7 +45,10 @@ const MovieModal = ({ movie, onClose }: MovieModalProps) => {
                         </div>
                         <p className="modal-overview">{movie.overview}</p>
                         <div className="modal-footer-actions">
-                            <Link to="/watch" state={{ movie }} className="btn-secondary">
+                            <Link to="/watch" state={{ movie }} className="btn-primary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+                                    <polygon points="6 4 20 12 6 20" />
+                                </svg>
                                 Play
                             </Link>
                         </div>
