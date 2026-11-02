@@ -1,26 +1,42 @@
-import { useState } from "react"
-import MovieList from "./components/MovieList"
-import SearchBar from "./components/SearchBar"
-import { SAMPLE_MOVIES } from "./data/sampleMovies"
+import { useState, lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { AppProvider } from "./context/AppContext";
+import HeaderComponent from "./components/HeaderComp";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+const WatchPage = lazy(() => import("./pages/WatchPage"));
 
 const App = () => {
-  const [movies] = useState(SAMPLE_MOVIES);
-  const [query, setQuery] = useState("");
-  const [minRating] = useState(0);
-
-  const filteredMovies = movies.filter(
-    (movie) =>
-      movie.title.toLowerCase().includes(query.toLowerCase()) &&
-      movie.vote_average >= minRating
-  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="app-layout">
-      <h1>Movie App</h1>
-      <SearchBar query={query} onChange={setQuery} />
-      <MovieList movies={filteredMovies} />
-    </div>
+    <AppProvider>
+      <BrowserRouter>
+        <div className="app-layout">
+          <Routes>
+            <Route
+              element={
+                <>
+                  <HeaderComponent
+                    searchQuery={searchQuery}
+                    onChange={setSearchQuery}
+                  />
+                  <Outlet />
+                </>
+              }
+            >
+              <Route path="/" element={<HomePage searchQuery={searchQuery} />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+            <Route path="/watch" element={<Suspense><WatchPage /></Suspense>} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </AppProvider>
   );
 };
 
-export default App
+export default App;
